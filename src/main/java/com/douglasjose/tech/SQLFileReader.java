@@ -1,13 +1,13 @@
 package com.douglasjose.tech;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,13 +16,18 @@ import java.util.regex.Pattern;
  */
 public class SQLFileReader {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SQLFileReader.class);
+
     private final Properties queries = new Properties();
 
     public SQLFileReader(InputStream is) {
-        parse(is);
+        parseFile(is);
+        if (LOG.isInfoEnabled()) {
+            logConfiguration();
+        }
     }
 
-    private void parse(InputStream is) {
+    private void parseFile(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         try {
             String line;
@@ -88,4 +93,10 @@ public class SQLFileReader {
     public String query(String name) {
         return queries.getProperty(name);
     }
+
+    private void logConfiguration() {
+        SortedSet<String> queryNames = new TreeSet<>(queryNames());
+        LOG.info("{} queries initialized: {}", queryNames.size(), queryNames);
+    }
+
 }
