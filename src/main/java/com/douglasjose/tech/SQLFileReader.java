@@ -74,6 +74,12 @@ public class SQLFileReader {
         return line.matches("^--\\s*#\\w+");
     }
 
+    /**
+     * Reads next valid line from file
+     * @param reader File reader
+     * @return Next valid line, or <code>null</code> if EOF.
+     * @throws IOException If the file could not be read
+     */
     private String nextLine(BufferedReader reader) throws IOException {
         String line;
         do {
@@ -96,7 +102,7 @@ public class SQLFileReader {
 
     private void logConfiguration() {
         SortedSet<String> queryNames = new TreeSet<>(queryNames());
-        LOG.info("{} queries initialized: {}", queryNames.size(), queryNames);
+        LOG.info("{} {} initialized: {}", queryNames.size(), queryNames.size() > 1 ? "queries" : "query" , queryNames);
     }
 
 }

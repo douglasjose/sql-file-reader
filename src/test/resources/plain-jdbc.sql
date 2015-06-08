@@ -1,0 +1,2 @@
+-- #selectAllCustomers
+SELECT * FROM CUSTOMER;
