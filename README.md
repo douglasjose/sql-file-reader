@@ -40,3 +40,5 @@ Enable `INFO` logging for `com.douglasjose.tech` to log information about the qu
 ```
 
 ## License
+
+[Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
