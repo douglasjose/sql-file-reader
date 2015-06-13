@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.sql.*;
 import java.util.*;
@@ -64,6 +63,24 @@ public class PlainJdbcTest {
 
         statement.close();
         rs.close();
+
+        statement = connection.prepareStatement(sqlFile.query("selectCustomerByLastName"));
+        statement.setString(1, "Clancy");
+
+        rs = statement.executeQuery();
+
+        data = readResultSet(rs);
+
+        assert data != null;
+        assert data.size() == 5;
+
+        for (Map<String, Object> row : data) {
+            LOG.debug(row.toString());
+        }
+
+        statement.close();
+        rs.close();
+
         connection.close();
 
     }
