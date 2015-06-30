@@ -45,7 +45,7 @@ public class PlainJdbcTest {
         populateDatabase();
 
         URL plainJdbcFile = PlainJdbcTest.class.getClassLoader().getResource("plain-jdbc.sql");
-        SQLFileReader sqlFile = new SQLFileReader(plainJdbcFile.openStream());
+        SQLFile sqlFile = new SQLFile(plainJdbcFile.openStream());
         String selectAllQuery = sqlFile.query("selectAllCustomers");
         assert selectAllQuery != null;
 

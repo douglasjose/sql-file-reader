@@ -28,17 +28,17 @@ import java.util.Set;
 /**
  * @author Douglas José (douglasjose@gmail.com)
  */
-public class SQLFileReaderTest {
+public class SQLFileTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SQLFileReaderTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SQLFileTest.class);
 
     @Test
     public void dummy() throws URISyntaxException, IOException {
-        URL basic = SQLFileReaderTest.class.getClassLoader().getResource("basic.sql");
+        URL basic = SQLFileTest.class.getClassLoader().getResource("basic.sql");
         assert basic != null;
         LOG.debug("Reading SQL from {}", basic.toURI().getPath());
 
-        SQLFileReader sfr = new SQLFileReader(basic.openStream());
+        SQLFile sfr = new SQLFile(basic.openStream());
 
         Set<String> queryNames = sfr.queryNames();
 
@@ -46,11 +46,15 @@ public class SQLFileReaderTest {
         assert queryNames.size() == 2;
         assert queryNames.contains("myNamedQuery");
         assert queryNames.contains("anotherQuery");
+        assert !queryNames.contains("invalidQuery");
+
 
         for (String queryName : sfr.queryNames()) {
             LOG.debug("Query: " + queryName);
             LOG.debug(sfr.query(queryName));
         }
+
+        assert sfr.query("invalidQuery") == null;
 
 
     }

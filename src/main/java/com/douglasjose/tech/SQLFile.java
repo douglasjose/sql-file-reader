@@ -1,5 +1,3 @@
-package com.douglasjose.tech;
-
 /*
 Copyright 2015 Douglas José (douglasjose@gmail.com)
 
@@ -15,28 +13,55 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
+package com.douglasjose.tech;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * The {@code SQLFile} class represents an immutable set of named SQL queries.
+ *
+ * <p>It must be initialized with an {@link InputStream} that contains the text representation of the named SQL queries.
+ *
+ * <p>The name of a query is defined in the beginning of a commented line (i.e., a line starting with <code>--</code>),
+ * starting with a pound sign immediately followed by the query name, that can consist of letters or numbers (but no
+ * whitespaces), preceding the query declaration.
+ *
+ * <p>For instance, let's assume an {@code SQLFile} initialized with the contents of the following file:
+ *
+ * <pre>
+ * -- #queryName
+ * --
+ * -- My query's description
+ * SELECT COLUMN FROM TABLE;
+ * </pre>
+ *
+ * <p>The corresponding object would have this internal state:
+ *
+ * <pre>
+ * sqlFile.queryNames();        // (queryName)
+ * sqlFile.query("queryName");  // SELECT COLUMN FROM TABLE;
+ * </pre>
+ *
+ * @see Properties
  * @author Douglas José (douglasjose@gmail.com)
  */
-public class SQLFileReader {
+public class SQLFile implements Serializable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SQLFileReader.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SQLFile.class);
 
     private final Properties queries = new Properties();
 
-    public SQLFileReader(InputStream is) {
+    /**
+     * Constructs a SQL file with the specified input stream
+     * @param is Input stream representing the SQL file
+     */
+    public SQLFile(InputStream is) {
         parseFile(is);
         if (LOG.isInfoEnabled()) {
             logConfiguration();
@@ -108,10 +133,21 @@ public class SQLFileReader {
         return isQueryLine(line) || isQueryName(line);
     }
 
+    /**
+     * Names of all queries valid in the context of this SQL file.
+     *
+     * @return Set of query names declared on the SQL file
+     */
     public Set<String> queryNames() {
         return queries.stringPropertyNames();
     }
 
+    /**
+     * Gets the query associated with the provided query name.
+     * @param name Name of the query to be retrieved
+     * @return The query identified by <code>name</code>, or <code>null</code> if
+     * <code>!this.queryNames().contains(name)</code>
+     */
     public String query(String name) {
         return queries.getProperty(name);
     }

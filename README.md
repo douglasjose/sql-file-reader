@@ -36,7 +36,7 @@ String query = sqlFile.query("selectAllCustomers");
 Enable `INFO` logging for `com.douglasjose.tech` to log information about the queries:
 
 ```
-[main] INFO  com.douglasjose.tech.SQLFileReader - 2 queries initialized: [selectAllCustomers, selectCustomerByLastName]
+[main] INFO  com.douglasjose.tech.SQLFile - 2 queries initialized: [selectAllCustomers, selectCustomerByLastName]
 ```
 
 ## License
