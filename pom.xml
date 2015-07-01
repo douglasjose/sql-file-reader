@@ -4,7 +4,7 @@
 
     <groupId>com.douglasjose.tech</groupId>
     <artifactId>sql-file-reader</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>SQL File Reader</name>
     <description>Externalize SQL statements to .sql files that can be consumed directly by your Java application.</description>
@@ -111,7 +111,7 @@
                         <configuration>
                             <serverId>ossrh</serverId>
                             <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
                 </plugins>
