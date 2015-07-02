@@ -10,6 +10,18 @@ Allow developers to externalize their queries in a SQL-friendly format, without 
 
 SQL files can be easily consumed by database clients while preserving the queries formatting and leveraging the SQL support of text editors and IDEs.
 
+## Dependency Management
+
+```xml
+<dependencies>
+  <dependency>
+    <groupId>com.douglasjose.tech</groupId>
+    <artifactId>sql-file-reader</artifactId>
+    <version>1.0.0</version>
+  </dependency>
+</dependencies>
+```
+
 ## Basic Usage
 
 Declare your queries in a `.sql` file (e.g., `queries.sql`). Name your queries using the `#queryName` format in the comments:
@@ -23,11 +35,11 @@ SELECT * FROM CUSTOMER WHERE LASTNAME = ?;
 
 ```
 
-Initialize a `SQLFileReader` object
+Initialize a `SQLFile` object
 
 ```java
 InputStream is = getClass().getClassLoader().getResourceAsStream("queries.sql");
-SQLFileReader sqlFile = new SQLFileReader(is);
+SQLFile sqlFile = new SQLFile(is);
 String query = sqlFile.query("selectAllCustomers");
 ```
 
@@ -38,6 +50,11 @@ Enable `INFO` logging for `com.douglasjose.tech` to log information about the qu
 ```
 [main] INFO  com.douglasjose.tech.SQLFile - 2 queries initialized: [selectAllCustomers, selectCustomerByLastName]
 ```
+## Continuous Integration
+
+Master: [![Build Status](https://travis-ci.org/douglasjose/sql-file-reader.svg?branch=master)](https://travis-ci.org/douglasjose/sql-file-reader)
+
+Development:  [![Build Status](https://travis-ci.org/douglasjose/sql-file-reader.svg?branch=development)](https://travis-ci.org/douglasjose/sql-file-reader)
 
 ## License
 
