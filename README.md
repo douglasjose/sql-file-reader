@@ -56,6 +56,9 @@ Master: [![Build Status](https://travis-ci.org/douglasjose/sql-file-reader.svg?b
 
 Development:  [![Build Status](https://travis-ci.org/douglasjose/sql-file-reader.svg?branch=development)](https://travis-ci.org/douglasjose/sql-file-reader)
 
+## Releases
+
+* v1.0.0 -  [jar](https://repo1.maven.org/maven2/com/douglasjose/tech/sql-file-reader/1.0.0/sql-file-reader-1.0.0.jar) - [javadoc](http://douglasjose.com/sql-file-reader/javadocs/v1.0.0/)
 ## License
 
 [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
