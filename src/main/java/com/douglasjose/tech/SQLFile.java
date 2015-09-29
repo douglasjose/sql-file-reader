@@ -45,7 +45,7 @@ import java.util.regex.Pattern;
  *
  * <pre>
  * sqlFile.queryNames();        // (queryName)
- * sqlFile.query("queryName");  // SELECT COLUMN FROM TABLE;
+ * sqlFile.query("queryName");  // "SELECT COLUMN FROM TABLE"
  * </pre>
  *
  * @see Properties
@@ -96,9 +96,9 @@ public class SQLFile implements Serializable {
         if (queryName != null && !queryName.trim().isEmpty() && queryLines != null && !queryLines.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             for (String queryLine: queryLines) {
-                sb.append(queryLine).append('\n');
+                sb.append(queryLine.replaceFirst("--.*$", "")).append('\n'); // Strip comments from any query lines
             }
-            queries.setProperty(queryName, sb.substring(0, sb.length() - 1));
+            queries.setProperty(queryName, sb.substring(0, sb.length() - 1).replaceFirst(";\\s*$", ""));
         }
     }
 

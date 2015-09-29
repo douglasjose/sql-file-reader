@@ -63,6 +63,7 @@
 
     <profiles>
         <profile>
+            <!-- Release with 'mvn versions:set ; mvn clean deploy -P release' -->
             <id>release</id>
             <build>
                 <plugins>

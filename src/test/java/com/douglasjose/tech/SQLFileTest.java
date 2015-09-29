@@ -20,9 +20,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -59,5 +62,35 @@ public class SQLFileTest {
 
     }
 
+    @Test
+    public void removeSemicolon() {
+        Map<String,String> map = new HashMap<>();
+        map.put("basicUsage", "select col from tab;");
+        map.put("whitespacesAfter", "select col from tab;   ");
+        map.put("tabsAfter", "select col from tab;\t\t\t");
+        map.put("commentAfter", "select col from tab; -- This is my comment");
+        map.put("literal", "select 'this;that' from dual");
+        map.put("endingLiteral", "select col from 'WEIRD_TABLE;'");
+
+        SQLFile sfr = fromMap(map);
+
+        assert sfr.query("basicUsage").equals("select col from tab");
+        assert sfr.query("whitespacesAfter").equals("select col from tab");
+        assert sfr.query("tabsAfter").equals("select col from tab");
+        assert sfr.query("commentAfter").equals("select col from tab");
+        assert sfr.query("literal").equals("select 'this;that' from dual");
+        assert sfr.query("endingLiteral").equals("select col from 'WEIRD_TABLE;'");
+    }
+
+
+    private SQLFile fromMap(Map<String, String> map) {
+        StringBuffer sb = new StringBuffer();
+
+        for (String k : map.keySet()) {
+            sb.append("-- #").append(k).append('\n').append(map.get(k)).append('\n');
+        }
+
+        return new SQLFile(new ByteArrayInputStream(sb.toString().getBytes()));
+    }
 
 }
